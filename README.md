@@ -1,2 +1,2 @@
-# GolangAss1
+# Golang Assignment 1
 
