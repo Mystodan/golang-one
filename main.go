@@ -11,6 +11,8 @@ func main() {
 	flag.BoolVar(&flagValidity, "test", false, "takes the string as an input, and returns a boolean value if it complies with the format 23-ab-48-caba-56-haha")
 	var flagAverage bool
 	flag.BoolVar(&flagAverage, "avr", false, "takes the string, and returns the average number from all the numbers")
+	var flagWStory bool
+	flag.BoolVar(&flagWStory, "story", false, "takes the string, and replaces the numbers with ' 'spaces")
 
 	flag.Parse()
 
@@ -20,6 +22,7 @@ func main() {
 		"420-this works-1337-hi-69",
 		"ab-12-cava-41-lol-32",
 		"-12-ab-",
+		"1-hello-2-world",
 	}
 
 	fmt.Print("\n\n")
@@ -29,17 +32,23 @@ func main() {
 			if assignment1.TestValidity(testString[i]) {
 				fmt.Println("[Success]", "('", testString[i], "')")
 				if flagAverage {
-					fmt.Print("\t")
+					fmt.Print("\t-")
 					assignment1.AverageNumber(testString[i])
-
+				}
+				if flagWStory {
+					fmt.Print("\t-")
+					assignment1.WholeStory(testString[i])
 				}
 			} else {
 				fmt.Println("[Failure]", "('", testString[i], "')")
 			}
-			fmt.Print("\n")
+			fmt.Println()
 		} else {
 			if flagAverage {
 				assignment1.AverageNumber(testString[i])
+			}
+			if flagWStory {
+				assignment1.WholeStory(testString[i])
 			}
 		}
 	}

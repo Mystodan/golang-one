@@ -22,7 +22,7 @@ func TestValidity(inn string) bool {
 	}
 	var i int
 	j := 0 // counter for bool array containing the states of the strings
-	isNum := make([]bool, len(inn))
+	isNum := make([]bool, uint(len(inn)/3))
 
 	for i = 0; i < len(inn); i++ {
 		if inn[i] != '-' { // skips check for '-'
@@ -60,7 +60,7 @@ func AverageNumber(inn string) uint {
 	}
 	var i int
 	j := 0 // counter for bool array containing the states of the strings
-	isNum := make([]bool, len(inn))
+	isNum := make([]bool, uint(len(inn)/3))
 	for i = 0; i < len(inn); i++ {
 		if inn[i] != '-' { // skips check for '-'
 			isNum[j] = true // automatically sets it to number
@@ -77,7 +77,7 @@ func AverageNumber(inn string) uint {
 	}
 	var avgNum uint
 	div := uint(0)
-	fmt.Print("The average number of these numbers:[")
+	fmt.Print("The average number of the numbers:[")
 	for i = 0; i < j; i++ {
 		if isNum[i] == true { // if its a number
 			tNum, err := strconv.Atoi(strInn[i]) // convert from ascii to integer
@@ -93,4 +93,51 @@ func AverageNumber(inn string) uint {
 	fmt.Print("] is ")
 	fmt.Println((avgNum / div))
 	return (avgNum / div) // divides the answer by count of numbers and returns it
+}
+
+/**
+ *  Average Number
+ *  takes the string, and returns the average number from all the numbers
+ *
+ *  @param inn  the string it takes in as an input
+ */
+func WholeStory(inn string) string {
+	if len(inn) < 1 { // if string is empty
+		return ""
+	}
+	if inn[0] == '-' || inn[len(inn)-1] == '-' { // if string starts or ends with '-' dash
+		return ""
+	}
+	var i int
+	j := 0 // counter for bool array containing the states of the strings
+	isNum := make([]bool, uint(len(inn)/3))
+	for i = 0; i < len(inn); i++ {
+		if inn[i] != '-' { // skips check for '-'
+			isNum[j] = true // automatically sets it to number
+			if !(uint(inn[i]) >= 48 && uint(inn[i]) <= 57) {
+				isNum[j] = false // switches if it isnt a number
+			}
+		} else {
+			j++ // changes check to next string
+		}
+	}
+	strInn := strings.Split(inn, "-")
+	if isNum[0] == false { // if first string is NAN
+		return ""
+	}
+	var rString string
+	fmt.Print("The string with numbers replaced :[ ")
+	for i = 0; i <= j; i++ {
+		if isNum[i] == true { // if its a number
+			if i != 0 && i != j {
+				strInn[i] = " "
+			} else {
+				strInn[i] = ""
+			}
+		}
+		rString += strInn[i]
+	}
+	fmt.Print(rString)
+	fmt.Println(" ]")
+	return (rString) // divides the answer by count of numbers and returns it
 }
