@@ -2,6 +2,7 @@ package assignment1
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -190,22 +191,21 @@ func StoryStats(inn string) []string {
 	}
 	//handler for average word length
 	counter := 0
-	averageLength := 0
+	averageLength := 0.0
 	for i := 0; i < len(strInn); i++ {
 		if isNum[i] == false {
 			for k := 0; k < len(strInn[counter])-1; k++ {
-				averageLength += len(strInn[k]) // adds it to the answer
-				println(counter)
+				averageLength += float64(len(strInn[k])) // adds it to the answer
 				counter++
 			}
 		}
 	}
 	if counter > 0 {
-		averageLength = averageLength / counter
+		averageLength = float64(averageLength) / float64(counter)
 	} else {
-		averageLength = len(strInn[1]) // if the strings are equal in length then one of the lengths will suffice
+		averageLength = float64(len(strInn[1])) // if the strings are equal in length then one of the lengths will suffice
 	}
-	averageLengthOfString := strconv.Itoa(averageLength)
+	averageLengthOfString := strconv.Itoa(int(math.Round(averageLength)))
 	rString := []string{shortestString, longestString, averageLengthOfString}
 
 	fmt.Print(
