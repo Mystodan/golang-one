@@ -13,6 +13,8 @@ func main() {
 	flag.BoolVar(&flagAverage, "avr", false, "takes the string, and returns the average number from all the numbers")
 	var flagWStory bool
 	flag.BoolVar(&flagWStory, "story", false, "takes the string, and replaces the numbers with ' 'spaces")
+	var flagSStats bool
+	flag.BoolVar(&flagSStats, "stats", false, "takes the string, and returns four things: the shortest- longest words, in addition to the average wordlength and lists all the words with average w. len.(rounded)")
 
 	flag.Parse()
 
@@ -39,16 +41,36 @@ func main() {
 					fmt.Print("\t-")
 					assignment1.WholeStory(testString[i])
 				}
+				if flagSStats {
+					assignment1.StoryStats(testString[i])
+				}
 			} else {
 				fmt.Println("[Failure]", "('", testString[i], "')")
 			}
 			fmt.Println()
 		} else {
 			if flagAverage {
-				assignment1.AverageNumber(testString[i])
+				if assignment1.TestValidity(testString[i]) {
+					fmt.Println("[Success]", "('", testString[i], "')")
+					fmt.Print("\t-")
+					assignment1.AverageNumber(testString[i])
+					fmt.Print("\n")
+				}
 			}
 			if flagWStory {
-				assignment1.WholeStory(testString[i])
+				if assignment1.TestValidity(testString[i]) {
+					fmt.Println("[Success]", "('", testString[i], "')")
+					fmt.Print("\t-")
+					assignment1.WholeStory(testString[i])
+					fmt.Print("\n")
+				}
+			}
+			if flagSStats {
+				if assignment1.TestValidity(testString[i]) {
+					fmt.Println("[Success]", "('", testString[i], "')")
+					assignment1.StoryStats(testString[i])
+					fmt.Print("\n")
+				}
 			}
 		}
 	}
