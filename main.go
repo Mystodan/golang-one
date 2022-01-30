@@ -5,6 +5,7 @@ import (
 	"fmt"
 	assignment1 "golang1/pckg"
 	"math/rand"
+	"strings"
 	"time"
 )
 
@@ -19,10 +20,8 @@ func main() {
 	flag.BoolVar(&flagWStory, "story", false, "takes the string, and replaces the numbers with ' 'spaces")
 	var flagSStats bool
 	flag.BoolVar(&flagSStats, "stats", false, "takes the string, and returns four things: the shortest- longest words, in addition to the average wordlength and lists all the words with average w. len.(rounded)")
-	var flagGenTrue bool
-	flag.BoolVar(&flagGenTrue, "gen_true", false, " returns a string value which complies with the format f. ex. 23-ab-48-caba-56-haha")
-	var flagGenFalse bool
-	flag.BoolVar(&flagGenFalse, "gen_false", true, "returns a string value which does not complies with the format f. ex. -av-a2-48-caba-56-haha")
+	var flagGen string
+	flag.StringVar(&flagGen, "gen", "true", "takes the bool( true or false), returns a string value which might comply with the format f. ex. 23-ab-48-caba-56-haha")
 
 	flag.Parse()
 
@@ -55,9 +54,9 @@ func main() {
 	}
 
 	fmt.Print("\n\n")
-	if flagGenTrue {
+	if strings.ToLower(flagGen) == "true" {
 		fmt.Println(assignment1.Generate(true))
-	} else {
+	} else if strings.ToLower(flagGen) == "false" {
 		fmt.Println(assignment1.Generate(false))
 	}
 	var i int

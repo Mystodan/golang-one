@@ -181,7 +181,7 @@ func StoryStats(inn string) (string, string, float64, []string) {
 			//	fmt.Print("counter:", averageLength/float64(counter))
 			averageLength = float64(averageLength) / float64(counter)
 		}
-		rString := []string{}
+		var rString []string
 		// handler for list rounding
 		for i := 0; i < len(strInn); i++ {
 
@@ -279,7 +279,6 @@ func Generate(mode bool) string {
 			if i != ranNum {
 				rString += "-"
 			}
-
 			for j := 0; j < (rand.Intn(max-min+1) + min); j++ {
 				getNum := rand.Intn(57-48+1) + 48
 				rString += string(rune(getNum))
