@@ -152,12 +152,12 @@ func WholeStory(inn string) string {
  *
  *  @param inn  the string it takes in as an input
  */
-func StoryStats(inn string) []string {
+func StoryStats(inn string) (string, string, float64, []string) {
 	if len(inn) < 1 { // if string is empty
-		return []string{""}
+		return "", "", 0.0, []string{""}
 	}
 	if inn[0] == '-' || inn[len(inn)-1] == '-' { // if string starts or ends with '-' dash
-		return []string{""}
+		return "", "", 0.0, []string{""}
 	}
 	j := 0 // counter for bool array containing the states of the strings
 	isNum := make([]bool, uint(len(inn)/3))
@@ -174,17 +174,17 @@ func StoryStats(inn string) []string {
 	// splitting string into strings
 	strInn := strings.Split(inn, "-")
 	if isNum[0] == false { // if first string is NAN
-		return []string{""}
+		return "", "", 0.0, []string{""}
 	}
 	//handler for string length
 	shortestString := strInn[1]
 	longestString := strInn[1]
 	for i := 0; i < len(strInn); i++ {
 		if isNum[i] == false {
-			if shortestString > strInn[i] {
+			if len(shortestString) > len(strInn[i]) {
 				shortestString = strInn[i]
 			}
-			if longestString < strInn[i] {
+			if len(longestString) < len(strInn[i]) {
 				longestString = strInn[i]
 			}
 		}
@@ -192,27 +192,41 @@ func StoryStats(inn string) []string {
 	//handler for average word length
 	counter := 0
 	averageLength := 0.0
+
 	for i := 0; i < len(strInn); i++ {
 		if isNum[i] == false {
-			for k := 0; k < len(strInn[counter])-1; k++ {
-				averageLength += float64(len(strInn[k])) // adds it to the answer
-				counter++
-			}
+			averageLength += float64(len(strInn[i])) // adds it to the answer
+			counter++
 		}
 	}
 	if counter > 0 {
+		//	fmt.Print("counter:", averageLength/float64(counter))
 		averageLength = float64(averageLength) / float64(counter)
-	} else {
-		averageLength = float64(len(strInn[1])) // if the strings are equal in length then one of the lengths will suffice
 	}
-	averageLengthOfString := strconv.Itoa(int(math.Round(averageLength)))
-	rString := []string{shortestString, longestString, averageLengthOfString}
+	rString := []string{}
+	// handler for list rounding
+	for i := 0; i < len(strInn); i++ {
+
+		if isNum[i] == false {
+			fmt.Println(averageLength, ":", math.Round(averageLength))
+			if float64(len(strInn[i])) == math.Floor(averageLength) {
+				rString = append(rString, strInn[i])
+			} else if float64(len(strInn[i])) == math.Ceil(averageLength) {
+				rString = append(rString, strInn[i])
+			}
+		}
+	}
 
 	fmt.Print(
-		"\t-Shortest string: ", rString[0], "\n",
-		"\t-Longest string : ", rString[1], "\n",
-		"\t-Average Length : ", rString[2], "\n",
+		"\t-Shortest string: ", shortestString, "\n",
+		"\t-Longest string : ", longestString, "\n",
+		"\t-Average Length : ", averageLength, "\n",
+		"\t-List(between ", math.Floor(averageLength), " - ", math.Ceil(averageLength), "): \n",
 	)
+	for i := 0; i < len(rString); i++ {
+		fmt.Println("\t\t - ", rString[i])
+	}
+
 	fmt.Println()
-	return (rString) // divides the answer by count of numbers and returns it
+	return shortestString, longestString, averageLength, rString // divides the answer by count of numbers and returns it
 }
